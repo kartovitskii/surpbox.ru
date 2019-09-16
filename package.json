@@ -4,8 +4,8 @@
   "description": "Магазин коробочек с сюрпризами",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack dev/main.js dist/build.js --watch"
+    "test": "webpack dev/main.js dist/build.js --watch",
+    "build": "webpack dev/main.js dist/build.js"
   },
   "devDependencies": {
     "babel-core": "6.18.2",
@@ -17,10 +17,14 @@
     "vue-html-loader": "1.2.3",
     "vue-loader": "8.5.2",
     "vue-style-loader": "1.0.0",
-    "webpack": "1.13.3"
+    "webpack": "1.13.3",
+    "file-loader": "^4.2.0",
+    "url-loader": "^2.1.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {}
+  "dependencies": {
+
+  }
 }

@@ -3,12 +3,11 @@
         <a class="imglink" href="/">
             <div class="logo"></div>
         </a>
-        <!-- 
+        
         <div class="logotext">
             <p class="mainlogotext">SURPBOX</p>
             <p class="sublogotext">Коробочки с сюрпризами</p>
         </div>
-        -->
         <div @click="menuopen()" class="burgermenu">
 <svg class="ham hamRotate ham4" viewBox="0 0 100 100" width="80" onclick="this.classList.toggle('active')">
   <path
@@ -57,21 +56,25 @@ export default {
 .logo {
     width: 76px;
     height: 76px;
-    background: #ededed;
+    background: url('https://surpbox.ru/dist/img/logomin.svg') no-repeat;
+    background-size: 45px;
+    background-position: 0% 50%;
     display: inline-block;
 }
 .logotext {
     display: inline-block;
-    position: relative;
-    bottom: 18px;
-    margin-left: 15px;
+    position: absolute;
+    top: 19px;
+    left: calc(50% - 70px);
+    text-align: center;
 }
 .mainlogotext {
-    font-size: 17pt;
+    font-size: 15pt;
 }
 .sublogotext {
-    font-size: 12pt;
+    font-size: 9pt;
     font-weight: 200;
+    margin-top: -5px;
 }
 .burgermenu {
     float: right;
