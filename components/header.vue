@@ -64,7 +64,7 @@ export default {
 .logotext {
     display: inline-block;
     position: absolute;
-    top: 19px;
+    top: 22px;
     left: calc(50% - 70px);
     text-align: center;
 }

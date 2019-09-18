@@ -1,7 +1,7 @@
 <template>
     <div class="popularblock">
         <div class="popularbackgroundimage"></div>
-        <div class="popularaddtocart">В корзину <i class="fas addcarticon fa-cart-plus"></i></div>
+        <div @click="$emit('addtocart', populararray.name, populararray.price)" class="popularaddtocart">В корзину <i class="fas addcarticon fa-cart-plus"></i></div>
         <a class="popularblockname">{{ populararray.name }}</a>
         <p class="popularblockprice">{{ populararray.price }} рублей</p>
     </div>

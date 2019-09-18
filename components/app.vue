@@ -5,7 +5,7 @@
       <h3>Популярные</h3>
       </div>
       <div class="popularblockcontainer">
-      <popular :populararray="populararray" v-for="populararray in populararray"></popular>
+      <popular @addtocart = "addtocart"  :populararray="populararray" v-for="populararray in populararray"></popular>
     </div>
          <div class="allcontent">
       <h3>Сладкие</h3>
@@ -13,6 +13,7 @@
         <sweet></sweet>
       </div>
       <footer @click="test()" style="font-size: 8pt; text-align: center; padding-bottom: 10px; opacity: 0.3">
+      <p></p>
       surpbox.ru - магазин коробочек с сюрпризами<br>
       ИП Картовицкий И.И. ОГРН 5683832823998
       </footer>
@@ -29,22 +30,38 @@ import aboutbox from 'vue!./aboutbox.vue'
 export default {
     data() {
       return {
+        allprice: 0,
         populararray: [
       { 
         name: 'Mini',
-        price: 790,
+        price: 10,
+        id: 0
       },
             { 
         name: 'Sweet Original',
-        price: 990,
+        price: 20,
+        id: 1
       }
-    ]
+    ],
+      cartarray: []
       }
     },
     components: { 
       siteheader, popular , sweet
     }, 
     methods: {
+      addtocart(name, price) {
+        console.log(name, price)
+        this.cartarray.push({
+          name: 'Surpbox'+name,
+          price: price
+        })
+        this.allprice = 0
+       for (var i = 0; i < this.cartarray.length; i++) {
+          this.allprice = this.allprice + this.cartarray[i].price
+        }
+        console.log(this.allprice)
+      }
 
     }
 }
