@@ -1,5 +1,5 @@
 <template>
-
+<div>
     <div class="sweetblock">
         <div class="sweetblockimg"></div>
         <div style="padding: 0 10px; display: inline-block; width: calc(100% - 145px); float: right;">
@@ -9,6 +9,7 @@
         </div>
         </div> 
     <div class="sweetblockaddtocart">В корзину <i class="fas addcarticon addcarticonpos fa-cart-plus"></i></div>
+</div>
 </template>
 
 
