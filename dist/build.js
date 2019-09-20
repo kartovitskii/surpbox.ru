@@ -10491,7 +10491,7 @@
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/app.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(9)
+	__vue_template__ = __webpack_require__(42)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10544,7 +10544,7 @@
 
 
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n* {margin: 0; padding: 0;}\n:active, :hover, :focus {\n    outline: 0;\n    outline-offset: 0;\n}\nbody {\n  font-family: 'Roboto', sans-serif;\n  overflow-x: hidden;\n}\n.substrate {\n  background: #FDF7ED;\n  width: 100%;\n}\n.imglink {\n  text-decoration: none;\n}\n.allcontent {\n  padding: 0px 20px;\n}\nh3 {\n  font-weight: 300;\n  font-size: 18pt;\n  margin: 20px 0px;\n}\n.popularblockcontainer {\n  width: 100%;\n  height: 290px;\n  overflow-x: scroll;\n  white-space: nowrap;\n}\n", ""]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n* {margin: 0; padding: 0;}\n:active, :hover, :focus {\n    outline: 0;\n    outline-offset: 0;\n}\nbody {\n  font-family: 'Roboto', sans-serif;\n  overflow-x: hidden;\n}\n.substrate {\n  background: #FDF7ED;\n  width: 100%;\n}\n.imglink {\n  text-decoration: none;\n}\n.allcontent {\n  padding: 0px 20px;\n}\nh3 {\n  font-weight: 300;\n  font-size: 18pt;\n  margin: 20px 0px;\n}\n.popularblockcontainer {\n  width: 100%;\n  height: 290px;\n  overflow-x: scroll;\n  white-space: nowrap;\n}\n", ""]);
 
 	// exports
 
@@ -10837,27 +10837,27 @@
 	  value: true
 	});
 
-	var _stringify = __webpack_require__(10);
+	var _stringify = __webpack_require__(9);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
-	var _header = __webpack_require__(13);
+	var _header = __webpack_require__(12);
 
 	var _header2 = _interopRequireDefault(_header);
 
-	var _popular = __webpack_require__(23);
+	var _popular = __webpack_require__(22);
 
 	var _popular2 = _interopRequireDefault(_popular);
 
-	var _sweet = __webpack_require__(28);
+	var _sweet = __webpack_require__(27);
 
 	var _sweet2 = _interopRequireDefault(_sweet);
 
-	var _aboutbox = __webpack_require__(33);
+	var _aboutbox = __webpack_require__(32);
 
 	var _aboutbox2 = _interopRequireDefault(_aboutbox);
 
-	var _minicart = __webpack_require__(38);
+	var _minicart = __webpack_require__(37);
 
 	var _minicart2 = _interopRequireDefault(_minicart);
 
@@ -10865,12 +10865,17 @@
 
 	exports.default = {
 	  created: function created() {
-	    var json_data = JSON.parse(document.cookie);
-	    for (var i = 0; i < json_data.length; i++) {
-	      this.cartarray.push({ 'name': json_data[i].name, 'price': json_data[i].price });
-	      for (var i = 0; i < this.cartarray.length; i++) {
-	        this.allprice = this.allprice + this.cartarray[i].price;
+	    var cooka = this.readCookie('cart');
+	    if (cooka.length > 0) {
+	      console.log(JSON.parse(this.readCookie('cart')));
+	      var json_data = JSON.parse(this.readCookie('cart'));
+	      for (var i = 0; i < json_data.length; i++) {
+	        this.cartarray.push({ 'name': json_data[i].name, 'price': json_data[i].price });
+	        this.calcsum();
 	      }
+	      console.log(this.readCookie('cart'));
+	    } else {
+	      console.log('кука пустая');
 	    }
 	  },
 	  data: function data() {
@@ -10893,47 +10898,58 @@
 	    siteheader: _header2.default, popular: _popular2.default, sweet: _sweet2.default, minicart: _minicart2.default
 	  },
 	  methods: {
-	    addtocart: function addtocart(name, price) {
-	      console.log(name, price);
-	      this.cartarray.push({
-	        name: 'Surpbox ' + name,
-	        price: price
-	      });
+	    readCookie: function readCookie(name) {
+	      var bOut = false;
+	      return unescape(document.cookie.replace(/([^ ;=]+)=?([^;]+)?;?/g, function (m, n, v) {
+	        if (n == name && !bOut) {
+	          bOut = true;
+	          return v;
+	        } else {
+	          return '';
+	        }
+	      }));
+	    },
+	    hm: function hm() {
+	      document.cookie = 'cart' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	    },
+	    calcsum: function calcsum() {
 	      this.allprice = 0;
 	      for (var i = 0; i < this.cartarray.length; i++) {
 	        this.allprice = this.allprice + this.cartarray[i].price;
 	      }
+	    },
+	    addtocart: function addtocart(name, price) {
+	      this.cartarray.push({
+	        name: 'Surpbox ' + name,
+	        price: price
+	      });
+	      this.calcsum();
 	      console.log('-----------------------------');
-	      var forcookie = (0, _stringify2.default)(this.cartarray);
-	      document.cookie = forcookie;
-	      console.log(JSON.parse(document.cookie));
+
+	      document.cookie = 'cart=' + (0, _stringify2.default)(this.cartarray);
+	      console.log(this.readCookie('cart'));
 	      console.log('-----------------------------');
 	      console.log('Итого: ' + this.allprice + ' рублей.');
 	      console.log('В корзине:');
-	      for (i = 0; i < this.cartarray.length; i++) {
+	      for (var i = 0; i < this.cartarray.length; i++) {
 	        console.log(this.cartarray[i].name, this.cartarray[i].price);
 	      }
+	      console.log(JSON.parse(this.readCookie('cart')));
 	    }
 	  }
 	};
 
 /***/ },
 /* 9 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\n<div class=\"substrate\">\n  <siteheader></siteheader>\n  <div class=\"allcontent\">\n    <h3>Популярные</h3>\n    </div>\n    <div class=\"popularblockcontainer\">\n    <popular @addtocart = \"addtocart\" :populararray=\"populararray\" v-for=\"populararray in populararray\"></popular>\n  </div>\n       <div class=\"allcontent\">\n    <h3>Сладкие</h3>\n      <sweet></sweet>\n      <sweet></sweet>\n    </div>\n    <footer style=\"font-size: 8pt; text-align: center; padding-bottom: 10px; opacity: 0.3\">\n    <p></p>\n    surpbox.ru - магазин коробочек с сюрпризами<br>\n    ИП Картовицкий И.И. ОГРН 5683832823998\n    </footer>\n    <minicart :allprice=\"allprice\"></minicart>\n</div>\n";
+	module.exports = { "default": __webpack_require__(10), __esModule: true };
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(11), __esModule: true };
-
-/***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var core = __webpack_require__(12);
+	var core = __webpack_require__(11);
 	var $JSON = core.JSON || (core.JSON = { stringify: JSON.stringify });
 	module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 	  return $JSON.stringify.apply($JSON, arguments);
@@ -10941,7 +10957,7 @@
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	var core = module.exports = { version: '2.6.9' };
@@ -10949,17 +10965,17 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(14)
-	__vue_script__ = __webpack_require__(16)
+	__webpack_require__(13)
+	__vue_script__ = __webpack_require__(15)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/header.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(22)
+	__vue_template__ = __webpack_require__(21)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -10978,13 +10994,13 @@
 	})()}
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(15);
+	var content = __webpack_require__(14);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11004,7 +11020,7 @@
 	}
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11018,7 +11034,7 @@
 
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11027,7 +11043,7 @@
 	  value: true
 	});
 
-	var _menu = __webpack_require__(17);
+	var _menu = __webpack_require__(16);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -11051,17 +11067,17 @@
 	};
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(18)
-	__vue_script__ = __webpack_require__(20)
+	__webpack_require__(17)
+	__vue_script__ = __webpack_require__(19)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/menu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(21)
+	__vue_template__ = __webpack_require__(20)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11080,13 +11096,13 @@
 	})()}
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(19);
+	var content = __webpack_require__(18);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11106,7 +11122,7 @@
 	}
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11120,7 +11136,7 @@
 
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -11137,29 +11153,29 @@
 	};
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"substrateburgermenu\">\n    <div class=\"containerburgermenu\">\n        <div class=\"headerburgermenu\"></div>\n    </div>\n</div>\n";
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = "\n    <div class=\"header\">\n        <a class=\"imglink\" href=\"/\">\n            <div class=\"logo\"></div>\n        </a>\n        \n        <div class=\"logotext\">\n            <p class=\"mainlogotext\">SURPBOX</p>\n            <p class=\"sublogotext\">Коробочки с сюрпризами</p>\n        </div>\n        <div @click=\"menuopen()\" class=\"burgermenu\">\n<svg class=\"ham hamRotate ham4\" viewBox=\"0 0 100 100\" width=\"80\" onclick=\"this.classList.toggle('active')\">\n  <path\n        class=\"line top\"\n        d=\"m 70,33 h -40 c 0,0 -8.5,-0.149796 -8.5,8.5 0,8.649796 8.5,8.5 8.5,8.5 h 20 v -20\" />\n  <path\n        class=\"line middle\"\n        d=\"m 70,50 h -40\" />\n  <path\n        class=\"line bottom\"\n        d=\"m 30,67 h 40 c 0,0 8.5,0.149796 8.5,-8.5 0,-8.649796 -8.5,-8.5 -8.5,-8.5 h -20 v 20\" />\n</svg>\n        </div>\n            <menu :class=\"menuisactive ? '' : 'menu'\"></menu>\n    </div>\n";
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(24)
-	__vue_script__ = __webpack_require__(26)
+	__webpack_require__(23)
+	__vue_script__ = __webpack_require__(25)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/popular.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(27)
+	__vue_template__ = __webpack_require__(26)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11178,13 +11194,13 @@
 	})()}
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(25);
+	var content = __webpack_require__(24);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11204,7 +11220,7 @@
 	}
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11218,7 +11234,7 @@
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11236,23 +11252,23 @@
 	};
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"popularblock\">\n    <div class=\"popularbackgroundimage\"></div>\n    <div @click=\"$emit('addtocart', populararray.name, populararray.price)\" class=\"popularaddtocart\">В корзину <i class=\"fas addcarticon fa-cart-plus\"></i></div>\n    <a class=\"popularblockname\">{{ populararray.name }}</a>\n    <p class=\"popularblockprice\">{{ populararray.price }} рублей</p>\n</div>\n";
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(29)
-	__vue_script__ = __webpack_require__(31)
+	__webpack_require__(28)
+	__vue_script__ = __webpack_require__(30)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/sweet.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(32)
+	__vue_template__ = __webpack_require__(31)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11271,13 +11287,13 @@
 	})()}
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(30);
+	var content = __webpack_require__(29);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11297,7 +11313,7 @@
 	}
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11311,7 +11327,7 @@
 
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -11328,23 +11344,23 @@
 	};
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div>\n    <div class=\"sweetblock\">\n        <div class=\"sweetblockimg\"></div>\n        <div style=\"padding: 0 10px; display: inline-block; width: calc(100% - 145px); float: right;\">\n        <p class=\"sweetblockname\">Surpbox</p>\n        <p class=\"sweetblockfullname\">Sweet Mini</p>\n        <p class=\"sweetblockprice\">799 рублей</p>\n        </div>\n        </div> \n    <div class=\"sweetblockaddtocart\">В корзину <i class=\"fas addcarticon addcarticonpos fa-cart-plus\"></i></div>\n</div>\n";
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(34)
-	__vue_script__ = __webpack_require__(36)
+	__webpack_require__(33)
+	__vue_script__ = __webpack_require__(35)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/aboutbox.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(37)
+	__vue_template__ = __webpack_require__(36)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11363,13 +11379,13 @@
 	})()}
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(35);
+	var content = __webpack_require__(34);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11389,7 +11405,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11403,7 +11419,7 @@
 
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -11420,23 +11436,23 @@
 	};
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports) {
 
 	module.exports = "\n\n";
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__webpack_require__(39)
-	__vue_script__ = __webpack_require__(41)
+	__webpack_require__(38)
+	__vue_script__ = __webpack_require__(40)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] components/minicart.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(42)
+	__vue_template__ = __webpack_require__(41)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -11455,13 +11471,13 @@
 	})()}
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(39);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(7)(content, {});
@@ -11481,7 +11497,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(6)();
@@ -11495,7 +11511,7 @@
 
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -11508,10 +11524,16 @@
 	};
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"minicart\">\n      {{allprice}}\n    </div>\n";
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"substrate\">\n  <siteheader></siteheader>\n  <div class=\"allcontent\">\n    <h3>Популярные</h3>\n    </div>\n    <div class=\"popularblockcontainer\">\n    <popular @addtocart = \"addtocart\" :populararray=\"populararray\" v-for=\"populararray in populararray\"></popular>\n  </div>\n       <div class=\"allcontent\">\n    <h3>Сладкие</h3>\n      <sweet></sweet>\n      <sweet></sweet>\n    </div>\n    <footer @click=\"hm()\" style=\"font-size: 8pt; text-align: center; padding-bottom: 10px; opacity: 0.3\">\n    <p>\n    surpbox.ru - магазин коробочек с сюрпризами<br>\n    ИП Картовицкий И.И. ОГРН 5683832823998</p>\n    </footer>\n    <minicart :allprice=\"allprice\"></minicart>\n</div>\n";
 
 /***/ }
 /******/ ]);
