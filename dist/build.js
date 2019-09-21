@@ -10544,7 +10544,7 @@
 
 
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n* {margin: 0; padding: 0;}\n:active, :hover, :focus {\n    outline: 0;\n    outline-offset: 0;\n}\nbody {\n  font-family: 'Roboto', sans-serif;\n  overflow-x: hidden;\n}\n.substrate {\n  background: #FDF7ED;\n  width: 100%;\n}\n.imglink {\n  text-decoration: none;\n}\n.allcontent {\n  padding: 0px 20px;\n}\nh3 {\n  font-weight: 300;\n  font-size: 18pt;\n  margin: 20px 0px;\n}\n.popularblockcontainer {\n  width: 100%;\n  height: 290px;\n  overflow-x: scroll;\n  white-space: nowrap;\n}\n", ""]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n* {\n  margin: 0;\n  padding: 0;\n}\n*:active,\n*:hover,\n*:focus {\n  outline: 0;\n  outline-offset: 0;\n}\nbody {\n  font-family: \"Roboto\", sans-serif;\n  overflow-x: hidden;\n}\n.substrate {\n  background: #fdf7ed;\n  width: 100%;\n}\n.imglink {\n  text-decoration: none;\n}\n.allcontent {\n  padding: 0px 20px;\n}\nh3 {\n  font-weight: 300;\n  font-size: 18pt;\n  margin: 20px 0px;\n}\n.popularblockcontainer {\n  width: 100%;\n  height: 290px;\n  overflow-x: scroll;\n  white-space: nowrap;\n}\n", ""]);
 
 	// exports
 
@@ -10831,7 +10831,7 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -10861,32 +10861,41 @@
 
 	var _minicart2 = _interopRequireDefault(_minicart);
 
+	var _cart = __webpack_require__(43);
+
+	var _cart2 = _interopRequireDefault(_cart);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
 	  created: function created() {
-	    var cooka = this.readCookie('cart');
+	    var cooka = this.readCookie("cart");
 	    if (cooka.length > 0) {
-	      console.log(JSON.parse(this.readCookie('cart')));
-	      var json_data = JSON.parse(this.readCookie('cart'));
+	      console.log(JSON.parse(this.readCookie("cart")));
+	      var json_data = JSON.parse(this.readCookie("cart"));
 	      for (var i = 0; i < json_data.length; i++) {
-	        this.cartarray.push({ 'name': json_data[i].name, 'price': json_data[i].price });
+	        this.cartarray.push({
+	          name: json_data[i].name,
+	          price: json_data[i].price,
+	          id: json_data[i].id
+	        });
 	        this.calcsum();
 	      }
-	      console.log(this.readCookie('cart'));
+	      console.log(this.readCookie("cart"));
 	    } else {
-	      console.log('кука пустая');
+	      console.log("кука пустая");
 	    }
 	  },
 	  data: function data() {
 	    return {
 	      allprice: 0,
+	      cartisactive: false,
 	      populararray: [{
-	        name: 'Mini',
+	        name: "Mini",
 	        price: 990,
 	        id: 0
 	      }, {
-	        name: 'Sweet Original',
+	        name: "Sweet Original",
 	        price: 890,
 	        id: 1
 	      }],
@@ -10895,9 +10904,25 @@
 	  },
 
 	  components: {
-	    siteheader: _header2.default, popular: _popular2.default, sweet: _sweet2.default, minicart: _minicart2.default
+	    siteheader: _header2.default,
+	    popular: _popular2.default,
+	    sweet: _sweet2.default,
+	    minicart: _minicart2.default,
+	    cart: _cart2.default
 	  },
 	  methods: {
+	    deleteitemincart: function deleteitemincart(index) {
+	      console.log(index);
+	      this.cartarray = this.cartarray.filter(function (cartarray) {
+	        return cartarray.id !== index;
+	      });
+	      this.calcsum();
+	      document.cookie = "cart=" + (0, _stringify2.default)(this.cartarray);
+	    },
+	    openclosecart: function openclosecart() {
+	      this.cartisactive = !this.cartisactive;
+	      window.scrollTo(0, 0);
+	    },
 	    readCookie: function readCookie(name) {
 	      var bOut = false;
 	      return unescape(document.cookie.replace(/([^ ;=]+)=?([^;]+)?;?/g, function (m, n, v) {
@@ -10905,12 +10930,12 @@
 	          bOut = true;
 	          return v;
 	        } else {
-	          return '';
+	          return "";
 	        }
 	      }));
 	    },
 	    hm: function hm() {
-	      document.cookie = 'cart' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	      document.cookie = "cart" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 	    },
 	    calcsum: function calcsum() {
 	      this.allprice = 0;
@@ -10920,21 +10945,22 @@
 	    },
 	    addtocart: function addtocart(name, price) {
 	      this.cartarray.push({
-	        name: 'Surpbox ' + name,
-	        price: price
+	        name: "Surpbox " + name,
+	        price: price,
+	        id: Math.random()
 	      });
 	      this.calcsum();
-	      console.log('-----------------------------');
+	      console.log("-----------------------------");
 
-	      document.cookie = 'cart=' + (0, _stringify2.default)(this.cartarray);
-	      console.log(this.readCookie('cart'));
-	      console.log('-----------------------------');
-	      console.log('Итого: ' + this.allprice + ' рублей.');
-	      console.log('В корзине:');
+	      document.cookie = "cart=" + (0, _stringify2.default)(this.cartarray);
+	      console.log(this.readCookie("cart"));
+	      console.log("-----------------------------");
+	      console.log("Итого: " + this.allprice + " рублей.");
+	      console.log("В корзине:");
 	      for (var i = 0; i < this.cartarray.length; i++) {
 	        console.log(this.cartarray[i].name, this.cartarray[i].price);
 	      }
-	      console.log(JSON.parse(this.readCookie('cart')));
+	      console.log(JSON.parse(this.readCookie("cart")));
 	    }
 	  }
 	};
@@ -11505,7 +11531,7 @@
 
 
 	// module
-	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n.minicart {\n    height: 60px;\n    background: #F7D889;\n}\n", ""]);
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.buttonintocart {\n  height: 60px;\n  width: 160px;\n  line-height: 60px;\n  float: right;\n  background: #F4C468;\n  display: inline-block;\n  text-align: center;\n  cursor: pointer;\n  font-weight: 300;\n  font-size: 13pt;\n}\n.buttonintocart:hover {\n  background: #FFBB38;\n}\n.textinminicart {\n  height: 60px;\n  display: inline-block;\n  padding-top: 10px;\n  padding-left: 30px;\n}\n.textinminicart p {\n  opacity: 0.4;\n    font-size: 11pt;\n}\n.price { \n  opacity: 1!important;\n  font-size: 12pt!important; \n}\n.minicart {\n    height: 60px;\n    position: fixed;\n    bottom: 0;\n    width: 100%;\n     background: #F7D889;\n}\n", ""]);
 
 	// exports
 
@@ -11520,20 +11546,216 @@
 	    value: true
 	});
 	exports.default = {
-	    props: ['allprice']
+	    props: ['allprice', 'cartisactive'],
+	    methods: {}
 	};
 
 /***/ },
 /* 41 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"minicart\">\n      {{allprice}}\n    </div>\n";
+	module.exports = "\n<div class=\"minicart\">\n      <div class=\"textinminicart\"><p>Итого:</p><p class=\"price\">{{allprice}} руб.</p></div>\n      <div @click=\"this.$emit('openclosecart')\" class=\"buttonintocart\">Моя корзина</div>\n    </div>\n";
 
 /***/ },
 /* 42 */
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"substrate\">\n  <siteheader></siteheader>\n  <div class=\"allcontent\">\n    <h3>Популярные</h3>\n    </div>\n    <div class=\"popularblockcontainer\">\n    <popular @addtocart = \"addtocart\" :populararray=\"populararray\" v-for=\"populararray in populararray\"></popular>\n  </div>\n       <div class=\"allcontent\">\n    <h3>Сладкие</h3>\n      <sweet></sweet>\n      <sweet></sweet>\n    </div>\n    <footer @click=\"hm()\" style=\"font-size: 8pt; text-align: center; padding-bottom: 10px; opacity: 0.3\">\n    <p>\n    surpbox.ru - магазин коробочек с сюрпризами<br>\n    ИП Картовицкий И.И. ОГРН 5683832823998</p>\n    </footer>\n    <minicart :allprice=\"allprice\"></minicart>\n</div>\n";
+	module.exports = "\n<div class=\"substrate\">\n  <siteheader></siteheader>\n  <div class=\"allcontent\">\n    <h3>Популярные</h3>\n  </div>\n  <div class=\"popularblockcontainer\">\n    <popular\n      @addtocart=\"addtocart\"\n      :populararray=\"populararray\"\n      v-for=\"populararray in populararray\"\n      :key=\"populararray.name\"\n    ></popular>\n  </div>\n  <div class=\"allcontent\">\n    <h3>Сладкие</h3>\n    <sweet></sweet>\n    <sweet></sweet>\n  </div>\n  <footer\n    @click=\"hm()\"\n    style=\"font-size: 8pt; text-align: center; padding-bottom: 10px; opacity: 0.3\"\n  >\n    <p>\n      surpbox.ru - магазин коробочек с сюрпризами\n      <br />ИП Картовицкий И.И. ОГРН 5683832823998\n    </p>\n  </footer>\n  <minicart @openclosecart=\"openclosecart\" :allprice=\"allprice\" :cartisactive=\"cartisactive\"></minicart>\n  <cart\n  @deleteitemincart=\"deleteitemincart\"\n  @openclosecart=\"openclosecart\"\n  :cartarray=\"cartarray\"\n  :class=\"cartisactive ? '' : 'cartinv'\"\n  ></cart>\n  <div style=\"height: 60px;\"></div>\n</div>\n";
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(44)
+	__vue_script__ = __webpack_require__(46)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/cart.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(52)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./cart.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(45);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./cart.vue", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./cart.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.maincart {\n    position: absolute;\n    width: 100%;\n    min-height: 100%;\n    top: 0;\n    left: 0;\n    background: #F7D889;\n    z-index: 100;\n}\n.headerminicart {\n    height: 76px;\n    width: 100%;\n    line-height: 76px;\n    background: #F4C468;\n    padding: 0px 30px;\n    font-size: 15pt;\n    color: #302614;\n}\n.farightpad {\n    padding-right: 25px;\n}\n.cartinv {\n    display: none;\n}\n.faclosecartpos {\n    position: absolute;\n    right: 30px;\n    top: 23px;\n    font-size: 25pt;\n    cursor: pointer;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _cartitem = __webpack_require__(47);
+
+	var _cartitem2 = _interopRequireDefault(_cartitem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    data: function data() {
+	        return {};
+	    },
+
+	    components: {
+	        cartitem: _cartitem2.default
+	    },
+	    props: ['cartarray'],
+	    methods: {
+	        deleteitemincart: function deleteitemincart(index) {
+	            this.$emit('deleteitemincart', index);
+	        }
+	    }
+	};
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__webpack_require__(48)
+	__vue_script__ = __webpack_require__(50)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] components/cartitem.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(51)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), false)
+	  if (!hotAPI.compatible) return
+	  var id = "./cartitem.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(49);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./cartitem.vue", function() {
+				var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-rewriter.js!../node_modules/vue-loader/lib/selector.js?type=style&index=0!./cartitem.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.itemcart {\n    height: 80px;\n    width: 90%;\n    border-bottom: 1px solid #F4C468;\n    margin: 0 auto;\n}\n.itemcartcontent {\n    height: 40px;\n    margin-top: 10px;\n    padding: 20px 10px 0 0;\n    width: 100%;\n}\n.itemcartcontent p {\n    opacity: 0.4;\n    font-size: 10pt;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  props: ['cartarray']
+	};
+
+/***/ },
+/* 51 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"itemcart\">\n    <div class=\"itemcartcontent\">\n        {{ cartarray.name }}\n        <br>\n        <p>{{cartarray.price}} руб.</p>\n        <p @click=\"this.$emit('deleteitemincart', cartarray.id)\">Удалить</p>\n    </div>\n  </div>\n";
+
+/***/ },
+/* 52 */
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"maincart\">\n    <div class=\"headerminicart\"><i class=\"fas farightpad fa-shopping-cart\"></i>Корзина<i @click=\"this.$emit('openclosecart')\" class=\"fas faclosecartpos fa-times\"></i></div>\n    <cartitem\n    @deleteitemincart=\"deleteitemincart\"\n    :cartarray=\"cartarray\"\n    v-for=\"cartarray in cartarray\"\n    :key=\"cartarray.id\"\n    ></cartitem>\n</div>\n";
 
 /***/ }
 /******/ ]);
